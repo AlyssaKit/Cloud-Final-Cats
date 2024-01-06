@@ -1,0 +1,4 @@
+indexes:
+- kind: cats
+  properties:
+  - name: name
