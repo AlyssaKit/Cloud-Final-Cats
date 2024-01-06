@@ -1,0 +1,3673 @@
+{
+	"info": {
+		"_postman_id": "0a70ce00-0a05-4776-ae08-b264ac8acc57",
+		"name": "final_project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30501894"
+	},
+	"item": [
+		{
+			"name": "200 get users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('testing users status', function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{app_url}}/users",
+					"protocol": "http",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post cats 401 no jwt",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"401 status code\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Uki\",\r\n  \"type\": \"orange tabby\",\r\n  \"weight\": 11,\r\n  \"eyeColor\": \"green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post cats 201 JWT1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"cat_id_1\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('Check name is \\'Uki\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Uki');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'orange tabby\\'', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('orange tabby');\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Uki\",\r\n  \"type\": \"orange tabby\",\r\n  \"weight\": 11,\r\n  \"eyeColor\": \"green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 JWT1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"404 status code\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats/300",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"300"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post cats 201 cat3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"cat_id_3\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('Check name is \\'Thalia\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Thalia');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'orange & brown tabby\\'', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('orange and brown tabby');\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Thalia\",\r\n  \"type\": \"orange and brown tabby\",\r\n  \"weight\": 14,\r\n  \"eyeColor\": \"yellow\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post cats 201 JWT1 cat4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('cat_id_4', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Luna\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Luna');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'brown tabby\\'', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('brown tabby');\r",
+							"})\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Luna\",\r\n  \"type\": \"brown tabby\",\r\n  \"weight\": 9,\r\n  \"eyeColor\": \"green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post cats 201 JWT1 Cat5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('cat_id_5', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Mochi\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Mochi');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'orange and brown tabby\\'', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('orange and brown tabby');\r",
+							"})\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Mochi\",\r\n  \"type\": \"orange and brown tabby\",\r\n  \"weight\": 14,\r\n  \"eyeColor\": \"green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post cats 201 JWT1 Cat6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('cat_id_6', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Loki\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Loki');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'Tuxedo\\'', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('Tuxedo');\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Loki\",\r\n  \"type\": \"Tuxedo\",\r\n  \"weight\": 13,\r\n  \"eyeColor\": \"green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post cats 201 JWT1 Cat7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('cat_id_7', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Austin\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Austin');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'Lynx Point\\'', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('Lynx Point');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Austin\",\r\n  \"type\": \"Lynx Point\",\r\n  \"weight\": 15,\r\n  \"eyeColor\": \"Blue\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post cats 201 JWT1 Cat8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('cat_id_8', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Artemis\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Artemis');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'Dilute Tortoiseshell\\'', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('Dilute Tortoiseshell');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Artemis\",\r\n  \"type\": \"Dilute Tortoiseshell\",\r\n  \"weight\": 11,\r\n  \"eyeColor\": \"Orange\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "403 unique name error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status should be 403', function () {\r",
+							"     pm.expect(pm.response).to.have.status(403);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"response should be `Error`: `Please enter a unique name`\", function () {\r",
+							"    pm.expect(pm.response.json().Error).to.equal(\"Please enter a unique name\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Uki\",\r\n  \"type\": \"orange tabby\",\r\n  \"weight\": 11,\r\n  \"eyeColor\": \"green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users no JWT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{app_url}}/users",
+					"protocol": "http",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get cat_id_1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Uki\\'', function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    pm.expect(responseData[0].name).to.eql('Uki');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'orange tabby\\'', function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    pm.expect(responseData[0].type).to.eql('orange tabby');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check weight is 11', function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    pm.expect(responseData[0].weight).to.eql(11);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check eyeColor is \\'green\\'', function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    pm.expect(responseData[0].eyeColor).to.eql('green');\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 Patch cat_id_1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status should be 201')\r",
+							"\r",
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Uki\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Uki');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'orange tabby\\'', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('orange tabby');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check weight is 13', function () {\r",
+							"    pm.expect(pm.response.json().weight).to.eql(13);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check eyeColor is \\'green and yellow\\'', function () {\r",
+							"    pm.expect(pm.response.json().eyeColor).to.eql('green and yellow');\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"weight\": 13,\r\n  \"eyeColor\": \"green and yellow\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 Patch cat_id_1 no jwt",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status should be 401')\r",
+							"\r",
+							"pm.test('401 status code', function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"weight\": 13,\r\n  \"eyeColor\": \"green and yellow\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 test patch cat_id_1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Uki\\'', function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    pm.expect(responseData[0].name).to.eql('Uki');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is \\'orange tabby\\'', function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    pm.expect(responseData[0].type).to.eql('orange tabby');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check weight is 13', function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    pm.expect(responseData[0].weight).to.eql(13);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check eyeColor is \\'green and yellow\\'', function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"    pm.expect(responseData[0].eyeColor).to.eql('green and yellow');\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 new cat_id_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('cat_id_2', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Nico\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Nico');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is Black Tabby', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('Black Tabby');\r",
+							"})\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Nico\",\r\n  \"type\": \"Black Tabby\",\r\n  \"weight\": 10,\r\n  \"eyeColor\": \"green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 put cat_id_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is \\'Nico\\'', function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql('Nico');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is Black Tabby', function () {\r",
+							"    pm.expect(pm.response.json().type).to.eql('Black Tabby');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check weight is 12', function () {\r",
+							"    pm.expect(pm.response.json().weight).to.eql(12);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check eyeColor is \\'light green\\'', function () {\r",
+							"    pm.expect(pm.response.json().eyeColor).to.eql('light green');\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Nico\",\r\n  \"type\": \"Black Tabby\",\r\n  \"weight\": 12,\r\n  \"eyeColor\": \"light green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 put cat_id_2 no jwt",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status should be 401')\r",
+							"\r",
+							"pm.test('401 status code', function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Nico\",\r\n  \"type\": \"Black Tabby\",\r\n  \"weight\": 12,\r\n  \"eyeColor\": \"light green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "406 not supported MIME Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"406 status code\", function () {\r",
+							"    pm.response.to.have.status(406);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"406 error message\", function () {\r",
+							"     //Check for appropriate error message\r",
+							"     pm.expect(pm.response.json()[\"Error\"]).to.eq(\"Not Acceptable\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "audio/ogg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 prey_id_1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('prey_id_1', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('Response status should be 201', function () {\r",
+							"     pm.expect(pm.response).to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": \"mouse\",\r\n    \"avgWeight\": 1,\r\n    \"protein\": \"10 grams\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 prey_id_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('prey_id_2', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('Response status should be 201', function () {\r",
+							"     pm.expect(pm.response).to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": \"Bird\",\r\n    \"avgWeight\": 1,\r\n    \"protein\": \"13 grams\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 prey_id_3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('prey_id_3', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('Response status should be 201', function () {\r",
+							"     pm.expect(pm.response).to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": \"rat\",\r\n    \"avgWeight\": 3,\r\n    \"protein\": \"40 grams\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 prey_id_4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('prey_id_4', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('Response status should be 201', function () {\r",
+							"     pm.expect(pm.response).to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": \"snake\",\r\n    \"avgWeight\": 2,\r\n    \"protein\": \"35 grams\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 prey_id_5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('prey_id_5', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('Response status should be 201', function () {\r",
+							"     pm.expect(pm.response).to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": \"Goose\",\r\n    \"avgWeight\": 2,\r\n    \"protein\": \"35 grams\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 prey_id_6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('prey_id_6', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('Response status should be 201', function () {\r",
+							"     pm.expect(pm.response).to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": \"Frog\",\r\n    \"avgWeight\": 200,\r\n    \"protein\": \"35 grams\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 prey_id_7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('prey_id_7', pm.response.json()['id'])\r",
+							"\r",
+							"pm.test('Response status should be 201', function () {\r",
+							"     pm.expect(pm.response).to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": \"rabbit\",\r\n    \"avgWeight\": 2,\r\n    \"protein\": \"35 grams\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get all prey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check response length', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    const expectedLength = 5; // Replace with your expected length\r",
+							"    console.log(responseData.length)\r",
+							"    pm.expect(Object.keys(pm.response.json().data).length).to.eql(expectedLength);\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if the \"Next\" link is present', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.have.property('next');\r",
+							"    pm.expect(responseData.next).to.not.be.null;\r",
+							"    pm.expect(responseData.next).to.not.be.undefined;\r",
+							"    pm.expect(responseData.next).to.be.a('string');\r",
+							"    pm.expect(responseData.next.length).to.be.greaterThan(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 patch new data in prey_id_1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"avgWeight\": 2,\r\n    \"protein\": \"15 grams\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 check put on prey_id_1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check animal is \\'mouse\\'', function () {\r",
+							"    pm.expect(pm.response.json().animal).to.eql('mouse');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check protein is \\'15 grams\\'', function () {\r",
+							"    pm.expect(pm.response.json().protein).to.eql('15 grams');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check average weight is 2', function () {\r",
+							"    pm.expect(pm.response.json().avgWeight).to.eql(2);\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "201 put new data in prey_id_1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('201 status code', function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"animal\": \"mouse\",\r\n    \"avgWeight\": 2,\r\n    \"protein\": \"20 grams\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 Pair prey1 and cat1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}/prey/{{prey_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}",
+						"prey",
+						"{{prey_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 Pair prey2 and cat1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}/prey/{{prey_id_2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}",
+						"prey",
+						"{{prey_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 Pair prey1 and cat2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_2}}/prey/{{prey_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_2}}",
+						"prey",
+						"{{prey_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 Pair prey3 and cat2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_2}}/prey/{{prey_id_3}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_2}}",
+						"prey",
+						"{{prey_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 Pair prey4 and cat2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_2}}/prey/{{prey_id_4}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_2}}",
+						"prey",
+						"{{prey_id_4}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get cat with new relationship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test('Check prey details', function () {\r",
+							"    const prey1 = parseInt(pm.variables.get(\"prey_id_1\"),10);\r",
+							"    const app_url = pm.variables.get(\"app_url\")\r",
+							"    const expectedPrey = {\r",
+							"        'id': prey1,\r",
+							"        'self': `http://${app_url}/prey/${ prey1 }`,\r",
+							"        'animal': 'mouse'\r",
+							"    };\r",
+							"    pm.expect(pm.response.json()[0].preys[0]).to.eql(expectedPrey);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check eyeColor is as expected', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.eyeColor).to.eql('light green');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is as expected', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.name).to.eql('Nico');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check weight is as expected', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.weight).to.eql(12);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check self URL is present', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.self).to.be.a('string').and.not.empty;\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is as expected', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.type).to.eql('Black Tabby');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get prey with new relation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseData = pm.response.json();\r",
+							"\r",
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check protein is \\'13 grams\\'', function () {\r",
+							"    pm.expect(responseData.protein).to.eql('13 grams');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Check mostFearedCat is as expected\", function () {\r",
+							"    const catId1 = pm.variables.get(\"cat_id_1\");\r",
+							"    const app_url = pm.variables.get(\"app_url\"); // Changed \"variable\" to \"variables\"\r",
+							"    pm.expect(responseData.mostFearedCat).to.eql({\r",
+							"        \"name\": \"Uki\",\r",
+							"        \"self\": `http://${app_url}/cats/${catId1}`\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"pm.test('Check animal is \\'Bird\\'', function () {\r",
+							"    pm.expect(responseData.animal).to.eql('Bird');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check self URL is valid', function () {\r",
+							"    const preyId2 = pm.variables.get(\"prey_id_2\");\r",
+							"    const app_url = pm.variables.get(\"app_url\"); \r",
+							"    pm.expect(responseData.self).to.eql( `http://${app_url}/prey/${preyId2}`);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check avgWeight is 1', function () {\r",
+							"    pm.expect(responseData.avgWeight).to.eql(1);\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get your cats",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if the \"Next\" link is present', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.have.property('next');\r",
+							"    pm.expect(responseData.next).to.not.be.null;\r",
+							"    pm.expect(responseData.next).to.not.be.undefined;\r",
+							"    pm.expect(responseData.next).to.be.a('string');\r",
+							"    pm.expect(responseData.next.length).to.be.greaterThan(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get all prey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check if the \"Next\" link is present', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.have.property('next');\r",
+							"    pm.expect(responseData.next).to.not.be.null;\r",
+							"    pm.expect(responseData.next).to.not.be.undefined;\r",
+							"    pm.expect(responseData.next).to.be.a('string');\r",
+							"    pm.expect(responseData.next.length).to.be.greaterThan(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "403 delete cat_id_8 jwt2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('403 status code', function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_8}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_8}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "403 delete cat_id_8 no jwt",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status should be 401')\r",
+							"\r",
+							"pm.test('401 status code', function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_8}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_8}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete cat_id_8",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_8}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_8}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete 1 and 1's relationship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}/prey/{{prey_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}",
+						"prey",
+						"{{prey_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get cat 1 with removed relation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test('Check prey details', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    const expectedPreyLength = 1;\r",
+							"\r",
+							"    pm.expect(responseData[0].preys).to.be.an('array');\r",
+							"    pm.expect(responseData[0].preys.length).to.eql(expectedPreyLength);\r",
+							"});\r",
+							"pm.test('Check eyeColor is as expected', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.eyeColor).to.eql('green and yellow');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check name is as expected', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.name).to.eql('Uki');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check weight is as expected', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.weight).to.eql(13);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check self URL is present', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.self).to.be.a('string').and.not.empty;\r",
+							"})\r",
+							"\r",
+							"pm.test('Check type is as expected', function () {\r",
+							"    const responseData = pm.response.json()[0];\r",
+							"    pm.expect(responseData.type).to.eql('orange tabby');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "403 get cat 1 jwt2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('403 status code', function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.test('You do not have access to this cat', function () {\r",
+							"    pm.expect(pm.response.text()).to.include('You do not have access to this cat');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "403 put cat 1 jwt2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('403 status code', function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.test('You do not have access to this cat', function () {\r",
+							"    pm.expect(pm.response.text()).to.include('You do not have access to this cat');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Uki\",\r\n  \"type\": \"Black cat\",\r\n  \"weight\": 15,\r\n  \"eyeColor\": \"light green\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "403 patch cat 1 jwt2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('403 status code', function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.test('You do not have access to this cat', function () {\r",
+							"    pm.expect(pm.response.text()).to.include('You do not have access to this cat');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"Black cat\",\r\n  \"weight\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get prey 1 with removed relation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseData = pm.response.json();\r",
+							"\r",
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check protein is \\'20 grams\\'', function () {\r",
+							"    pm.expect(responseData.protein).to.eql('20 grams');\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Check mostFearedCat is as expected\", function () {\r",
+							"    pm.expect(responseData.mostFearedCat).to.eql(null);\r",
+							"});\r",
+							"\r",
+							"pm.test('Check animal is \\'mouse\\'', function () {\r",
+							"    pm.expect(responseData.animal).to.eql('mouse');\r",
+							"})\r",
+							"\r",
+							"pm.test('Check self URL is valid', function () {\r",
+							"    const preyId1 = pm.variables.get(\"prey_id_1\");\r",
+							"    const app_url = pm.variables.get(\"app_url\"); \r",
+							"    pm.expect(responseData.self).to.eql( `http://${app_url}/prey/${preyId1}`);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check avgWeight is 2', function () {\r",
+							"    pm.expect(responseData.avgWeight).to.eql(2);\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete cat_id_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get your cats",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check response length', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    const expectedLength = 5; // Replace with your expected length\r",
+							"\r",
+							"    pm.expect(responseData.data.length).to.eql(expectedLength);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 get your cats jwt2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('404 status code', function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"})\r",
+							"\r",
+							"pm.test('No cats exist for this user', function () {\r",
+							"    pm.expect(pm.response.text()).to.include('No cats exist for this user');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get all prey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check response length', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    const expectedLength = 5; // Replace with your expected length\r",
+							"    console.log(responseData.length)\r",
+							"    pm.expect(Object.keys(pm.response.json().data).length).to.eql(expectedLength);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete prey 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get all prey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.test('Check response length', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    const expectedLength = 3; \r",
+							"    console.log(responseData.length)\r",
+							"    pm.expect(Object.keys(pm.response.json()).length).to.eql(expectedLength);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 pair c3 and p4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_3}}/prey/{{prey_id_4}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_3}}",
+						"prey",
+						"{{prey_id_4}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get all prey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check response length', function () {\r",
+							"    const responseData = pm.response.json().data;\r",
+							"    const expectedLength = 5; // Replace with your expected length\r",
+							"\r",
+							"    pm.expect(responseData.length).to.eql(expectedLength);\r",
+							"});\r",
+							"\r",
+							"pm.test('check for pairing', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    const cat3 = parseInt(pm.variables.get(\"cat_id_3\"), 10);\r",
+							"    const expectedFear = {\r",
+							"        \"id\": cat3,\r",
+							"    };\r",
+							"\r",
+							"    const foundCat = responseData.data.find(cat => cat.mostFearedCat && cat.mostFearedCat.id === expectedFear.id);\r",
+							"\r",
+							"    pm.expect(foundCat).to.exist;\r",
+							"    pm.expect(foundCat.mostFearedCat).to.eql(expectedFear);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get all prey jwt2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check response length', function () {\r",
+							"    const responseData = pm.response.json().data;\r",
+							"    const expectedLength = 5; // Replace with your expected length\r",
+							"\r",
+							"    pm.expect(responseData.length).to.eql(expectedLength);\r",
+							"});\r",
+							"\r",
+							"pm.test('check for pairing', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    const cat3 = parseInt(pm.variables.get(\"cat_id_3\"), 10);\r",
+							"    const expectedFear = {\r",
+							"        \"id\": cat3,\r",
+							"    };\r",
+							"\r",
+							"    const foundCat = responseData.data.find(cat => cat.mostFearedCat && cat.mostFearedCat.id === expectedFear.id);\r",
+							"\r",
+							"    pm.expect(foundCat).to.exist;\r",
+							"    pm.expect(foundCat.mostFearedCat).to.eql(expectedFear);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete prey2 jwt2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete prey 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_3}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete prey 4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_4}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_4}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete prey 5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_5}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_5}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete prey 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_6}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_6}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete prey 7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/prey/{{prey_id_7}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"prey",
+						"{{prey_id_7}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 get your cats after prey delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('200 status code', function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test('Check response length', function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    const expectedLength = 5; // Replace with your expected length\r",
+							"\r",
+							"    pm.expect(responseData.data.length).to.eql(expectedLength);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete cat_id_7",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_7}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_7}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete cat_id_6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_6}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_6}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete cat_id_5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_5}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_5}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete cat_id_4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_4}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_4}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete cat_id_3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_3}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "204 delete cat_id_1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('204 status code', function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/cats/{{cat_id_1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"cats",
+						"{{cat_id_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{app_url}}/login",
+					"protocol": "http",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "bearerToken",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlFWR2lBYmlET1JoRWRDTXRrbDluTiJ9"
+		}
+	]
+}
